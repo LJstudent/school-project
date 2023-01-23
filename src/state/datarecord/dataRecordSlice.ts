@@ -21,7 +21,7 @@ export const dataRecordSlice = createSlice({
       state.newRecord = false
     },
     deleteRecord: (state, action: PayloadAction<number>) => {
-      const index = state.dataRecords.findIndex(dataRecord=> dataRecord.id === action.payload)
+      const index = state.dataRecords.findIndex(dataRecord => dataRecord.id === action.payload)
       state.dataRecords.splice(index, 1);
     },
     newRecord: (state) => {
@@ -29,11 +29,27 @@ export const dataRecordSlice = createSlice({
     },
     cancelRecord: (state) => {
       state.newRecord = false;
-    }
+    },
+    ApproveRecordByDirector: (state, action: PayloadAction<{ dataRecordId: number, user: number }>) => {
+      if (action.payload.user === 2) {
+        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_purchasing_department = true
+      }
+      if (action.payload.user === 3) {
+        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_director = true
+      }
+    },
+    DeclineRecordByDirector: (state, action: PayloadAction<{ dataRecordId: number, user: number }>) => {
+      if (action.payload.user === 2) {
+        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_purchasing_department = false
+      }
+      if (action.payload.user === 3) {
+        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_director = false
+      }
+    },
   },
 });
 
 
-export const { addRecord, newRecord, cancelRecord, deleteRecord } = dataRecordSlice.actions;
+export const { addRecord, newRecord, cancelRecord, deleteRecord, ApproveRecordByDirector, DeclineRecordByDirector } = dataRecordSlice.actions;
 
 export default dataRecordSlice.reducer;

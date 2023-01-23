@@ -7,18 +7,22 @@ import StyledMain from './styled/StyledMain';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ActionsTask from './ActionsTask';
+import UserForm from './UserForm';
 
 function Main() {
     const dataRecords = useAppSelector((state) => state.datarecords.dataRecords)
 
     const [dataRecordId, setDataRecordId] = React.useState<number | undefined>(1);
+    const [user, setUser] = React.useState<number | undefined>(1);
 
     const handleRowClick = (dataRecordId: number) => {
         setDataRecordId(dataRecordId)
     }
+
     return (
         <StyledMain>
-            <ActionsTask />
+            <UserForm setUser={setUser} />
+            <ActionsTask dataRecordId={dataRecordId} user={user}  />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
