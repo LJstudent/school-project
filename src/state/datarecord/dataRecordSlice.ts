@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { dataRecords } from '../../data/dataRecords';
 import { IDataRecord } from '../../models/interfaces/IDataRecord';
+import { dataRecordApi } from '../services/dataRecord.services';
 
 export interface IDataRecordState {
   dataRecords: IDataRecord[];
@@ -8,7 +8,7 @@ export interface IDataRecordState {
 };
 
 const initialState: IDataRecordState = {
-  dataRecords: dataRecords,
+  dataRecords: [],
   newRecord: false,
 };
 
@@ -32,21 +32,29 @@ export const dataRecordSlice = createSlice({
     },
     ApproveRecordByDirector: (state, action: PayloadAction<{ dataRecordId: number, user: number }>) => {
       if (action.payload.user === 2) {
-        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_purchasing_department = true
+        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_purchasing_department = 1
       }
       if (action.payload.user === 3) {
-        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_director = true
+        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_director = 1
       }
     },
     DeclineRecordByDirector: (state, action: PayloadAction<{ dataRecordId: number, user: number }>) => {
       if (action.payload.user === 2) {
-        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_purchasing_department = false
+        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_purchasing_department = 0
       }
       if (action.payload.user === 3) {
-        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_director = false
+        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_director = 0
       }
     },
   },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      dataRecordApi.endpoints.getDataRecords.matchFulfilled,
+      (state, { payload }) => {
+         state.dataRecords = payload
+     }
+  )
+},
 });
 
 

@@ -1,18 +1,22 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import React from 'react';
 import { useAppSelector } from '../state/hooks';
+import { useGetDataRecordsQuery } from '../state/services/dataRecord.services';
 import Actions from './Actions';
+import ActionsTask from './ActionsTask';
 import Form from './Form';
 import StyledMain from './styled/StyledMain';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import CancelIcon from '@mui/icons-material/Cancel';
-import ActionsTask from './ActionsTask';
 import UserForm from './UserForm';
 
 function Main() {
+    // start of getting data
+    useGetDataRecordsQuery()
+
     const dataRecords = useAppSelector((state) => state.datarecords.dataRecords)
 
-    const [dataRecordId, setDataRecordId] = React.useState<number | undefined>(1);
+    const [dataRecordId, setDataRecordId] = React.useState<number | undefined>(undefined);
     const [user, setUser] = React.useState<number | undefined>(1);
 
     const handleRowClick = (dataRecordId: number) => {
@@ -36,7 +40,6 @@ function Main() {
                     </TableHead>
                     <TableBody>
                         {dataRecords.map((dataRecord) => {
-
                             return (
                                 <TableRow
                                     onClick={event => handleRowClick(dataRecord.id)}
@@ -48,11 +51,11 @@ function Main() {
                                     </TableCell>
                                     <TableCell align="right">{dataRecord.amount}</TableCell>
                                     <TableCell align="right">$ {dataRecord.purchase_price}</TableCell>
-                                    <TableCell align="center"> {dataRecord.approved_by_purchasing_department ? <TaskAltIcon /> :
-                                            (dataRecord.approved_by_purchasing_department === undefined ? null : <CancelIcon />)}</TableCell>
+                                    <TableCell align="center"> {dataRecord.approved_by_purchasing_department === 1 ? <TaskAltIcon /> :
+                                            (dataRecord.approved_by_purchasing_department === -1 ? null : <CancelIcon />)}</TableCell>
                                     <TableCell align="center">
-                                        {dataRecord.approved_by_director ? <TaskAltIcon /> :
-                                            (dataRecord.approved_by_director === undefined ? null : <CancelIcon />)}
+                                        {dataRecord.approved_by_director === 1 ? <TaskAltIcon /> :
+                                            (dataRecord.approved_by_director === -1 ? null : <CancelIcon />)}
                                     </TableCell>
                                 </TableRow>
                             )

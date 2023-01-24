@@ -19,7 +19,7 @@ function Form(props: IOuterProps) {
                 <Paper>
                     <Grid container item={true} direction="row">
                         {list.map((dataRecord) => (
-                            <form>
+                            <form key={dataRecord.id}>
                                 <Grid container item={true} direction="row" spacing={2}>
                                     <Grid className="grid-item">
                                         <TextField

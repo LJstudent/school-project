@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import dataRecordSlice from './datarecord/dataRecordSlice';
+import { dataRecordApi } from './services/dataRecord.services';
 
 export const store = configureStore({
   reducer: {
-    datarecords: dataRecordSlice
+    datarecords: dataRecordSlice,
+    [dataRecordApi.reducerPath]: dataRecordApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(dataRecordApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

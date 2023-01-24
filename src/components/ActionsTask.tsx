@@ -1,12 +1,12 @@
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
+import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Divider } from '@mui/material';
 import { deepOrange, grey, lightBlue, red } from '@mui/material/colors';
-import { useAppDispatch, useAppSelector } from '../state/hooks';
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
 import { ApproveRecordByDirector, DeclineRecordByDirector } from '../state/datarecord/dataRecordSlice';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
 
 interface IOuterProps {
     dataRecordId: number | undefined;
@@ -22,11 +22,11 @@ function ActionsTask(props: IOuterProps) {
     const dispatch = useAppDispatch()
     const list = dataRecords.filter(dataRecord => dataRecord.id === dataRecordId);
 
-    if (user === 1) {
+    if (!dataRecordId || user === 1) {
         disabledApprove = true
     }
 
-    if (list[0].approved_by_director === true && list[0].approved_by_purchasing_department === true) {
+    if (list && list[0]?.approved_by_director === 1 && list[0]?.approved_by_purchasing_department === 1) {
         disabledBuy = false
     }
 
