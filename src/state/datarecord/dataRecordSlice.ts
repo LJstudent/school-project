@@ -30,22 +30,6 @@ export const dataRecordSlice = createSlice({
     cancelRecord: (state) => {
       state.newRecord = false;
     },
-    ApproveRecordByDirector: (state, action: PayloadAction<{ dataRecordId: number, user: number }>) => {
-      if (action.payload.user === 2) {
-        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_purchasing_department = 1
-      }
-      if (action.payload.user === 3) {
-        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_director = 1
-      }
-    },
-    DeclineRecordByDirector: (state, action: PayloadAction<{ dataRecordId: number, user: number }>) => {
-      if (action.payload.user === 2) {
-        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_purchasing_department = 0
-      }
-      if (action.payload.user === 3) {
-        state.dataRecords.filter(dataRecord => dataRecord.id === action.payload.dataRecordId)[0].approved_by_director = 0
-      }
-    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -58,6 +42,6 @@ export const dataRecordSlice = createSlice({
 });
 
 
-export const { addRecord, newRecord, cancelRecord, deleteRecord, ApproveRecordByDirector, DeclineRecordByDirector } = dataRecordSlice.actions;
+export const { addRecord, newRecord, cancelRecord, deleteRecord } = dataRecordSlice.actions;
 
 export default dataRecordSlice.reducer;

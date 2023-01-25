@@ -12,7 +12,9 @@ import UserForm from './UserForm';
 
 function Main() {
     // start of getting data
-    useGetDataRecordsQuery()
+    useGetDataRecordsQuery('',{
+        pollingInterval: 100,
+    });
 
     const dataRecords = useAppSelector((state) => state.datarecords.dataRecords)
 

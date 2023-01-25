@@ -5,8 +5,8 @@ import { Avatar, Divider } from '@mui/material';
 import { deepOrange, grey, lightBlue, red } from '@mui/material/colors';
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
-import { ApproveRecordByDirector, DeclineRecordByDirector } from '../state/datarecord/dataRecordSlice';
-import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { useAppSelector } from '../state/hooks';
+import { useUpdateDataRecordMutation } from '../state/services/dataRecord.services';
 
 interface IOuterProps {
     dataRecordId: number | undefined;
@@ -14,12 +14,12 @@ interface IOuterProps {
 }
 
 function ActionsTask(props: IOuterProps) {
+    const [updatePost] = useUpdateDataRecordMutation()
     const { dataRecordId, user } = props;
     let disabledApprove = false;
     let disabledBuy = true;
 
     const dataRecords = useAppSelector((state) => state.datarecords.dataRecords);
-    const dispatch = useAppDispatch()
     const list = dataRecords.filter(dataRecord => dataRecord.id === dataRecordId);
 
     if (!dataRecordId || user === 1) {
@@ -29,6 +29,7 @@ function ActionsTask(props: IOuterProps) {
     if (list && list[0]?.approved_by_director === 1 && list[0]?.approved_by_purchasing_department === 1) {
         disabledBuy = false
     }
+    
 
     const colorTaskApprove = disabledApprove ? grey[600] : lightBlue[400];
     const colorTaskDecline = disabledApprove ? grey[600] : red[400];
@@ -36,13 +37,23 @@ function ActionsTask(props: IOuterProps) {
 
     const handleApprove = () => {
         if (dataRecordId && user) {
-            dispatch(ApproveRecordByDirector({dataRecordId: dataRecordId, user: user}))
+            if (user === 3) {
+                updatePost({ id: dataRecordId, approved_by_director: 1 })   
+            }
+            if (user === 2) {
+                updatePost({ id: dataRecordId, approved_by_purchasing_department: 1 })
+            }
         }
     }
 
     const handleDecline = () => {
         if (dataRecordId && user) {
-            dispatch(DeclineRecordByDirector({dataRecordId: dataRecordId, user: user}))
+            if (user === 3) {
+                updatePost({ id: dataRecordId, approved_by_director: 0 })   
+            }
+            if (user === 2) {
+                updatePost({ id: dataRecordId, approved_by_purchasing_department: 0 })
+            }
         }
     }
     return (
