@@ -29,7 +29,7 @@ function ActionsTask(props: IOuterProps) {
     if (list && list[0]?.approved_by_director === 1 && list[0]?.approved_by_purchasing_department === 1) {
         disabledBuy = false
     }
-    
+
 
     const colorTaskApprove = disabledApprove ? grey[600] : lightBlue[400];
     const colorTaskDecline = disabledApprove ? grey[600] : red[400];
@@ -38,7 +38,7 @@ function ActionsTask(props: IOuterProps) {
     const handleApprove = () => {
         if (dataRecordId && user) {
             if (user === 3) {
-                updatePost({ id: dataRecordId, approved_by_director: 1 })   
+                updatePost({ id: dataRecordId, approved_by_director: 1 })
             }
             if (user === 2) {
                 updatePost({ id: dataRecordId, approved_by_purchasing_department: 1 })
@@ -49,7 +49,7 @@ function ActionsTask(props: IOuterProps) {
     const handleDecline = () => {
         if (dataRecordId && user) {
             if (user === 3) {
-                updatePost({ id: dataRecordId, approved_by_director: 0 })   
+                updatePost({ id: dataRecordId, approved_by_director: 0 })
             }
             if (user === 2) {
                 updatePost({ id: dataRecordId, approved_by_purchasing_department: 0 })
