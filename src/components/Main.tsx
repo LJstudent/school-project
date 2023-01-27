@@ -26,7 +26,8 @@ function Main() {
     });
 
     const dataRecords = useAppSelector((state) => state.datarecords.dataRecords);
-    const prevDataRecords = usePrevious({ dataRecords });
+    const [listId, setlistId] = React.useState<number | undefined>(undefined);
+    const prevDataRecords = usePrevious({ dataRecords, listId });
     const check = JSON.stringify(dataRecords) !== JSON.stringify(prevDataRecords?.dataRecords) ? true : false;
 
     const [dataRecordId, setDataRecordId] = React.useState<number | undefined>(undefined);
@@ -58,7 +59,8 @@ function Main() {
 
         if (granted && check && user === 1) {
             const number = checkDataRecordOnApprove();
-            if (number) {
+            setlistId(number);
+            if (number && listId !== undefined) {
                 showNotification(number);
             }
         }
@@ -71,7 +73,10 @@ function Main() {
             .filter(datarecord => datarecord.approved_by_director === 1 && datarecord.approved_by_purchasing_department === 1)
             .map(datarecord => list.push(datarecord.id));
         if (list.length > 0) {
-            return parseInt(list.slice(-1).pop());
+            const latestListId = parseInt(list.slice(-1).pop())
+            if (latestListId !== prevDataRecords?.listId) {
+                return latestListId;
+            }
         } else {
             return undefined
         }
