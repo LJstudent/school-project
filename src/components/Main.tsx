@@ -22,7 +22,7 @@ const usePrevious = <T extends unknown>(value: T): T | undefined => {
 function Main() {
     // start of getting data
     useGetDataRecordsQuery('', {
-        pollingInterval: 5000
+        pollingInterval: 3000
     });
 
     const dataRecords = useAppSelector((state) => state.datarecords.dataRecords);
