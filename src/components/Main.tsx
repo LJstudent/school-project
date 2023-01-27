@@ -59,8 +59,8 @@ function Main() {
 
         if (granted && check && user === 1) {
             const number = checkDataRecordOnApprove();
-            setlistId(number);
-            if (number) {
+            if (number && (number !== listId)) {
+                setlistId(number);
                 showNotification(number);
             }
         }
