@@ -60,7 +60,7 @@ function Main() {
         if (granted && check && user === 1) {
             const number = checkDataRecordOnApprove();
             setlistId(number);
-            if (number && listId !== undefined) {
+            if (number) {
                 showNotification(number);
             }
         }
@@ -102,6 +102,7 @@ function Main() {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
+                            <TableCell align="left">Id</TableCell>
                             <TableCell>Item</TableCell>
                             <TableCell align="right">Amount</TableCell>
                             <TableCell align="right">Purchase price&nbsp;($)</TableCell>
@@ -117,6 +118,9 @@ function Main() {
                                     key={dataRecord.id}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
+                                     <TableCell align="left">
+                                        {dataRecord.id}
+                                    </TableCell>
                                     <TableCell component="th" scope="row">
                                         {dataRecord.item}
                                     </TableCell>
