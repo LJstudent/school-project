@@ -88,10 +88,9 @@ function Main() {
             body: 'Is ready for buy order',
         });
 
-        // close the notification after 10 seconds
-        setTimeout(() => {
-            notification.close();
-        }, 10 * 1000);
+      notification.onclick = () => {
+        notification.close();
+      }
     }
 
     return (
